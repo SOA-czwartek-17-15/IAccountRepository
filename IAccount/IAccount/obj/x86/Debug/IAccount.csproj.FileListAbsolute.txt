@@ -1,0 +1,4 @@
+C:\Users\Madzia\Documents\IAccountRepository\IAccount\IAccount\bin\Debug\IAccount.exe
+C:\Users\Madzia\Documents\IAccountRepository\IAccount\IAccount\bin\Debug\IAccount.pdb
+C:\Users\Madzia\Documents\IAccountRepository\IAccount\IAccount\obj\x86\Debug\IAccount.exe
+C:\Users\Madzia\Documents\IAccountRepository\IAccount\IAccount\obj\x86\Debug\IAccount.pdb
