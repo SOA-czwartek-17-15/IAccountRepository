@@ -32,7 +32,7 @@ namespace AccountRepository.DataAccess
                     }
                     session.SaveOrUpdate(accountEntity);
                     transaction.Commit();
-                }
+                }   
 
             }
         }

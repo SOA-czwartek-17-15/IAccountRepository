@@ -49,7 +49,7 @@ namespace AccountRepository.Tests
         public void SetUp()
         {
             ServiceLocator.Instance.Register(Component.For<IServiceFactory>().Instance(new MockServiceFactory()).IsDefault().Named(Guid.NewGuid().ToString()));
-           // ServiceLocator.Instance.Register(Component.For<IAccountDataAccess>().Instance( new MockAccountDataAccess()).IsDefault().Named(Guid.NewGuid().ToString()));
+            //ServiceLocator.Instance.Register(Component.For<IAccountDataAccess>().Instance( new MockAccountDataAccess()).IsDefault().Named(Guid.NewGuid().ToString()));
         }
 
         private static Account CreateNewAccount()

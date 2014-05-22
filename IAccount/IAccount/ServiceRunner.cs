@@ -33,8 +33,8 @@ namespace AccountRepository
             serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
             log.InfoFormat("Chennel ServiceRepository created. Address: {0}", serviceRepository);
             
-            accountServiceHost = GetAccountServiceHost();
-            log.Info("Host for Account Service created");
+            //accountServiceHost = GetAccountServiceHost();
+          //  log.Info("Host for Account Service created");
 
             serviceRepository.RegisterService(AccountServiceName, Settings.AccountServiceAddress);
             log.Info("Account Service registered");
@@ -44,7 +44,7 @@ namespace AccountRepository
             Console.WriteLine("Kliknij Enter, aby wyłączyć serwis...");
             Console.ReadLine();
 
-            serviceRepository.Unregister(AccountServiceName);
+           // serviceRepository.Unregister(AccountServiceName);
 
             accountServiceHost.Close();
             log.Info("Account Service closed");
@@ -53,13 +53,13 @@ namespace AccountRepository
         private void KeepAlive()
         {
             timer = new Timer {Interval = Settings.KeepAliveInterval};
-            timer.Elapsed += (s, e) => serviceRepository.Alive(AccountServiceName); 
+            timer.Elapsed += (s, e) =>
+            {
+            serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
+                serviceRepository.Alive(AccountServiceName);
+            }; 
             timer.Start();
         }
-
-       
-
-        
 
         private ServiceHost GetAccountServiceHost()
         {
