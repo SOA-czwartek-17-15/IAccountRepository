@@ -48,15 +48,15 @@ namespace AccountRepository.Tests
         [TestFixtureSetUp]
         public void SetUp()
         {
-            ServiceLocator.Instance.Register(Component.For<IServiceFactory>().Instance(new MockServiceFactory()).IsDefault().Named(Guid.NewGuid().ToString()));
-            //ServiceLocator.Instance.Register(Component.For<IAccountDataAccess>().Instance( new MockAccountDataAccess()).IsDefault().Named(Guid.NewGuid().ToString()));
+           // ServiceLocator.Instance.Register(Component.For<IServiceFactory>().Instance(new MockServiceFactory()).IsDefault().Named(Guid.NewGuid().ToString()));
+           // ServiceLocator.Instance.Register(Component.For<IAccountDataAccess>().Instance( new MockAccountDataAccess()).IsDefault().Named(Guid.NewGuid().ToString()));
         }
 
         private static Account CreateNewAccount()
         {
             Account detail = new Account();
             detail.Id = Guid.NewGuid();
-            detail.Money = 1000;
+            detail.Money = 800;
             detail.AccountNumber = "1";
             return detail;
         }

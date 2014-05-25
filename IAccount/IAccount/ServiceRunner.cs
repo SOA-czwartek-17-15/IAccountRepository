@@ -4,12 +4,13 @@ using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using System.Timers;
+using System.Threading;
 using AccountRepository.DataAccess;
 using Castle.MicroKernel.Registration;
 using Contracts;
 using FluentNHibernate.Utils;
 using log4net;
+using Timer = System.Timers.Timer;
 
 namespace AccountRepository
 {
@@ -29,12 +30,12 @@ namespace AccountRepository
         }
 
         public void RunService()
-        {
+        {          
             serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
             log.InfoFormat("Chennel ServiceRepository created. Address: {0}", serviceRepository);
             
             //accountServiceHost = GetAccountServiceHost();
-          //  log.Info("Host for Account Service created");
+           //log.Info("Host for Account Service created");
 
             serviceRepository.RegisterService(AccountServiceName, Settings.AccountServiceAddress);
             log.Info("Account Service registered");
@@ -55,8 +56,9 @@ namespace AccountRepository
             timer = new Timer {Interval = Settings.KeepAliveInterval};
             timer.Elapsed += (s, e) =>
             {
-            serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
+                serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();                                    
                 serviceRepository.Alive(AccountServiceName);
+                
             }; 
             timer.Start();
         }

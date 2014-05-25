@@ -17,7 +17,7 @@ namespace AccountRepository
         public AccountRepository()
         {
             AccountDataAccess = ServiceLocator.Instance.Resolve<IAccountDataAccess>();
-            ClientRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetClientRepository();
+            //ClientRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetClientRepository();
         }
 
         public bool ChangeAccountBalance(Guid accountId, long amount)
