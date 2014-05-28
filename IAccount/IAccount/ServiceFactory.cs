@@ -55,9 +55,10 @@ namespace AccountRepository
 
         public void Intercept(IInvocation invocation)
         {
+            Console.WriteLine("try to invoke methode {0} from {1}", invocation.Method.Name, typeof(T));
             int tryCount = 0;
             var result = Execute(invocation);
-            while (result == false && tryCount < MaxTryCount)
+            while (result == false && tryCount < MaxTryCount && invocation.Method.Name!="Alive")
             {
 
                 Console.WriteLine("Próba połączenia: {0}", tryCount+1);
@@ -67,7 +68,6 @@ namespace AccountRepository
             }
 
             if (result == false)
-                log.ErrorFormat("Communication exception: ", lastExeption);
                 throw new Exception("Communication exception");
         }
 
