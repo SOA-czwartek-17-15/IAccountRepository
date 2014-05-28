@@ -26,40 +26,56 @@ namespace AccountRepository
 
         public ServiceRunner()
         {
-            
+
         }
 
         public void RunService()
-        {          
-            serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
-            log.InfoFormat("Chennel ServiceRepository created. Address: {0}", serviceRepository);
-            
-            //accountServiceHost = GetAccountServiceHost();
-           //log.Info("Host for Account Service created");
+        {
 
-            serviceRepository.RegisterService(AccountServiceName, Settings.AccountServiceAddress);
-            log.Info("Account Service registered");
+
+            //accountServiceHost = GetAccountServiceHost();
+            //log.Info("Host for Account Service created");
+
+            RegisterServiceInRepository();
 
             KeepAlive();
 
             Console.WriteLine("Kliknij Enter, aby wyłączyć serwis...");
             Console.ReadLine();
 
-           // serviceRepository.Unregister(AccountServiceName);
+            // serviceRepository.Unregister(AccountServiceName);
 
             accountServiceHost.Close();
             log.Info("Account Service closed");
         }
 
+        private void RegisterServiceInRepository()
+        {
+            serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
+            log.InfoFormat("Chennel ServiceRepository created. Address: {0}", serviceRepository);
+            serviceRepository.RegisterService(AccountServiceName, Settings.AccountServiceAddress);
+            log.Info("Account Service registered");
+        }
+
         private void KeepAlive()
         {
-            timer = new Timer {Interval = Settings.KeepAliveInterval};
+            timer = new Timer { Interval = Settings.KeepAliveInterval };
             timer.Elapsed += (s, e) =>
             {
-                serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();                                    
-                serviceRepository.Alive(AccountServiceName);
-                
-            }; 
+                timer.Stop();
+                serviceRepository = ServiceLocator.Instance.Resolve<IServiceFactory>().GetServiceRepository();
+                try
+                {
+                    Console.WriteLine("Alive");
+                    serviceRepository.Alive(AccountServiceName);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Cannnot send Alive signal");
+                    RegisterServiceInRepository();                   
+                }
+                timer.Start();
+            };
             timer.Start();
         }
 
